@@ -11,7 +11,7 @@
 
 <form method="post">
     <select name="cheeseRemove">
-        <option th:each="cheese : ${cheeses}" th:value="${cheese.key}" th:text="${cheese.key}"></option>
+        <option th:each="cheese : ${cheeses}" th:value="${cheese.name}" th:text="${cheese.name}"></option>
     </select>
     <input type="submit" value="Remove" />
 </form>

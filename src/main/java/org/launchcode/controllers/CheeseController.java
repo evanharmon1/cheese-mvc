@@ -1,5 +1,6 @@
 package org.launchcode.controllers;
 
+import org.launchcode.models.Cheese;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 @RequestMapping(value = "cheese")
 public class CheeseController {
 
-    static HashMap<String, String> cheeses = new HashMap<>();
+    static ArrayList<Cheese> cheeses = new ArrayList<>();
 
     // Request path: cheese/
     @RequestMapping(value = "")
@@ -50,7 +51,8 @@ public class CheeseController {
             return "redirect:/cheese/add?error=" + errorMessage;
         }
 
-        cheeses.put(cheeseName, cheeseDescription);
+        Cheese newCheese = new Cheese(cheeseName, cheeseDescription);
+        cheeses.add(newCheese);
 
         // Redirect to cheese/
         return "redirect:";
@@ -66,7 +68,11 @@ public class CheeseController {
     // Remove cheeses via select dropdown assignment goal
     @RequestMapping(value = "remove", method = RequestMethod.POST)
     public String removeCheese(@RequestParam String cheeseRemove) {
-        cheeses.remove(cheeseRemove);
+        for (Cheese cheese : cheeses) {
+            if (cheese.getName().equals(cheeseRemove)) {
+                cheeses.remove(cheese);
+            }
+        }
         return "redirect:";
     }
 }
