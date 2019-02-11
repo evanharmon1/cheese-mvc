@@ -1,10 +1,23 @@
 package org.launchcode.models;
 
+import java.util.Date;
+
 public class User {
 
-    String username;
-    String email;
-    String password;
+    private int userId;
+    private static int nextId = 1;
+    private String username;
+    private String email;
+    private String password;
+    private Date joined;
+
+    public int getId() {
+        return userId;
+    }
+
+    public void setId(int id) {
+        this.userId = id;
+    }
 
     public String getUsername() {
         return username;
@@ -30,6 +43,17 @@ public class User {
         this.password = password;
     }
 
+    public Date getJoined() {
+        return joined;
+    }
+
+    public void setJoined(Date joined) {
+        this.joined = joined;
+    }
+
     public User() {
+        userId = nextId;
+        nextId++;
+        joined = new Date();
     }
 }

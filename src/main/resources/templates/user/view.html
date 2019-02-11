@@ -6,13 +6,13 @@
 
 <nav th:replace="fragments :: navigation"></nav>
 
-<h2 th:text="'Welcome ' + ${newUser.username}"></h2>
+<div th:object="${user}">
+    <h2 th:text="${user.username}"></h2>
 
-<ul th:object="${users}">
-    <li th:each="user : ${users}">
-        <a th:href="@{/user/view/{id}(id=${user.id})}" th:text="${user.username}"></a>
-    </li>
-</ul>
+    <h3 th:text="${user.username}"></h3>
+    <h3 th:text="${user.email}"></h3>
+    <h3 th:text="${user.joined}"></h3>
 
+</div>
 </body>
 </html>
