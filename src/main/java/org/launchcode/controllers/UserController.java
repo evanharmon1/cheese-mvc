@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String add(Model model, @ModelAttribute @Valid User user, Errors errors, String verify) {
+    public String add(Model model, @ModelAttribute @Valid User user, Errors errors) {
 
         if (errors.hasErrors()) {
             user.setPassword("");
@@ -33,19 +33,7 @@ public class UserController {
             model.addAttribute("title", "Add User");
             return "user/add";
         }
-        if (verify.isEmpty()) {
-            user.setPassword("");
-            model.addAttribute("user", user);
-            model.addAttribute("title", "Add User");
-            model.addAttribute("verifyError", "Please enter your password again to verify");
-            return "user/add";
-        }
-        if (!user.getPassword().equals(verify)) {
-            model.addAttribute("user", user);
-            model.addAttribute("title", "Add User");
-            model.addAttribute("verifyError", "Passwords did not match");
-            return "user/add";
-        }
+
         model.addAttribute("newUser", user);
         UserData.add(user);
         model.addAttribute("users", UserData.getAll());

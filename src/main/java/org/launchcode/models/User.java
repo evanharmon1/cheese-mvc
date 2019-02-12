@@ -22,6 +22,9 @@ public class User {
     @Size(min=6, message = "Password must be at least 6 characters long")
     private String password;
 
+    @NotNull(message = "Passwords do not match")
+    private String verifyPassword;
+
 
     private Date joined;
 
@@ -55,6 +58,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+        this.checkPassword();
+    }
+
+    public String getVerifyPassword() {
+        return verifyPassword;
+    }
+
+    public void setVerifyPassword(String verifyPassword) {
+        this.verifyPassword = verifyPassword;
+        this.checkPassword();
+    }
+
+    private void checkPassword() {
+        if ((this.password != null && this.verifyPassword != null) && (!this.password.equals(this.verifyPassword))) {
+            this.verifyPassword = null;
+        }
     }
 
     public Date getJoined() {
