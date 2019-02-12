@@ -4,11 +4,14 @@ import org.launchcode.models.User;
 import org.launchcode.models.UserData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.apache.commons.lang3.StringUtils;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("user")
@@ -22,38 +25,32 @@ public class UserController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String add(Model model, @ModelAttribute User user, String verify) {
+    public String add(Model model, @ModelAttribute @Valid User user, Errors errors, String verify) {
 
-        //  Check username length
-        if (user.getUsername().length() < 5 || user.getUsername().length() > 15) {
+        if (errors.hasErrors()) {
+            user.setPassword("");
             model.addAttribute("user", user);
-            model.addAttribute("usernameError", "Username must be between 5 & 15 characters");
+            model.addAttribute("title", "Add User");
             return "user/add";
         }
-        // Check if email is empty
-        if (user.getEmail().isEmpty()) {
+        if (verify.isEmpty()) {
+            user.setPassword("");
             model.addAttribute("user", user);
-            model.addAttribute("emailError", "You left the email blank");
+            model.addAttribute("title", "Add User");
+            model.addAttribute("verifyError", "Please enter your password again to verify");
             return "user/add";
         }
-        // Check username is alphabetic
-        if (!StringUtils.isAlpha(user.getUsername())) {
-            model.addAttribute("user", user);
-            model.addAttribute("usernameError", "Username must be only alphabetic characters");
-            return "user/add";
-        }
-        // Check password matching
         if (!user.getPassword().equals(verify)) {
             model.addAttribute("user", user);
+            model.addAttribute("title", "Add User");
             model.addAttribute("verifyError", "Passwords did not match");
             return "user/add";
         }
-        else {
-            model.addAttribute("newUser", user);
-            UserData.add(user);
-            model.addAttribute("users", UserData.getAll());
-            return "user/index";
-        }
+        model.addAttribute("newUser", user);
+        UserData.add(user);
+        model.addAttribute("users", UserData.getAll());
+        return "user/index";
+
     }
 
 

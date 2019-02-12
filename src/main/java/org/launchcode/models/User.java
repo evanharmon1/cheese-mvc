@@ -1,14 +1,28 @@
 package org.launchcode.models;
 
+import org.hibernate.validator.constraints.Email;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class User {
 
     private int userId;
     private static int nextId = 1;
+
+    @NotNull
+    @Size(min=5, max=15)
     private String username;
+
+    @Email
     private String email;
+
+    @NotNull
+    @Size(min=6, message = "Password must be at least 6 characters long")
     private String password;
+
+
     private Date joined;
 
     public int getId() {

@@ -10,12 +10,12 @@
     <div class="form-group">
         <label th:for="username">Username</label>
         <input class="form-control" th:field="*{username}" />
-        <span th:text="${usernameError}"></span>
+        <span th:errors="*{username}"></span>
     </div>
     <div class="form-group">
         <label th:for="email">Email</label>
         <input class="form-control" type="email" th:field="*{email}" />
-        <span th:text="${emailError}"></span>
+        <span th:errors="*{email}"></span>
     </div>
     <div class="form-group">
         <label th:for="password">Password</label>
